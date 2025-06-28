@@ -116,6 +116,9 @@ def view_log():
 def logout():
     logout_user()
     return redirect('/login')
+@app.route('/test')
+def test():
+    return render_template('login.html')
 
 if __name__ == '__main__':
     
