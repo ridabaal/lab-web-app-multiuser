@@ -36,9 +36,7 @@ class Log(db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-@app.before_first_request
-def create_tables():
-    db.create_all()
+
 
 @app.route('/')
 def home():
@@ -120,5 +118,9 @@ def logout():
     return redirect('/login')
 
 if __name__ == '__main__':
+    
+    with app.app_context():
+       db.create_all()
+
     app.run(debug=True)
 
