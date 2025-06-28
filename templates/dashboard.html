@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block header %}Welcome, {{ user }}{% endblock %}
+{% block content %}
+<form action="/add" method="POST">
+    Add Equipment: <input name="name">
+    <button type="submit">Add</button>
+</form>
+<ul>
+{% for item in equipment %}
+    <li>
+        {{ item.name }} —
+        {% if item.available %}
+            Available
+            <form action="/checkout" method="POST" style="display:inline;">
+                <input name="name" value="{{ item.name }}" hidden>
+                <button type="submit">Check Out</button>
+            </form>
+        {% else %}
+            Borrowed by {{ item.borrowed_by }}
+            {% if item.borrowed_by == user %}
+            <form action="/checkin" method="POST" style="display:inline;">
+                <input name="name" value="{{ item.name }}" hidden>
+                <button type="submit">Check In</button>
+            </form>
+            {% endif %}
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>
+<a href="/log">View Log</a> | <a href="/logout">Logout</a>
+{% endblock %}
